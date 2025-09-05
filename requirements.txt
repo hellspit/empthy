@@ -1,0 +1,15 @@
+fastapi
+uvicorn
+python-multipart
+textblob
+vaderSentiment
+transformers
+torch
+pyttsx3
+gtts
+pydub
+numpy
+scipy
+python-jose[cryptography]
+python-dotenv
+
