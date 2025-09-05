@@ -47,9 +47,11 @@ Thumbs.db
 # Project specific
 temp_audio/
 logs/
-*.wav
-*.mp3
 *.log
+
+# Audio files (keep some examples)
+# *.wav
+# *.mp3
 
 # Environment variables
 .env

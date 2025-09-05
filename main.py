@@ -1,5 +1,6 @@
 from fastapi import FastAPI, HTTPException
 from fastapi.responses import FileResponse
+from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 import uvicorn
@@ -30,6 +31,9 @@ app.add_middleware(
     allow_headers=config.CORS_HEADERS,
 )
 
+# Mount static files
+app.mount("/static", StaticFiles(directory="static"), name="static")
+
 # Initialize the Empathy Engine
 empathy_engine = EmpathyEngine()
 
@@ -47,6 +51,17 @@ class AudioResponse(BaseModel):
 
 @app.get("/")
 async def root():
+    """Serve the main web interface"""
+    return FileResponse("static/index.html")
+
+@app.get("/demo")
+async def demo():
+    """Serve the emotion demo page"""
+    return FileResponse("static/demo.html")
+
+@app.get("/api")
+async def api_info():
+    """API information endpoint"""
     return {
         "message": "Welcome to The Empathy Engine!",
         "description": "AI-powered TTS with emotional voice modulation",

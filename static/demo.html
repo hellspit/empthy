@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Emotion Demo - The Empathy Engine</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .demo-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .emotion-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+        
+        .emotion-card {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            text-align: center;
+            transition: transform 0.2s ease;
+        }
+        
+        .emotion-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .emotion-icon {
+            font-size: 3rem;
+            margin-bottom: 15px;
+        }
+        
+        .emotion-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .emotion-description {
+            color: #666;
+            margin-bottom: 20px;
+        }
+        
+        .demo-text {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            font-style: italic;
+        }
+        
+        .demo-controls {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .demo-btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.2s ease;
+        }
+        
+        .play-btn {
+            background: #28a745;
+            color: white;
+        }
+        
+        .play-btn:hover {
+            background: #218838;
+        }
+        
+        .intensity-btn {
+            background: #17a2b8;
+            color: white;
+        }
+        
+        .intensity-btn:hover {
+            background: #138496;
+        }
+        
+        .back-btn {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background: #667eea;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 600;
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+            transition: all 0.2s ease;
+        }
+        
+        .back-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+        }
+    </style>
+</head>
+<body>
+    <a href="/" class="back-btn">
+        <i class="fas fa-arrow-left"></i> Back to Main
+    </a>
+    
+    <div class="demo-container">
+        <header class="header">
+            <h1><i class="fas fa-theater-masks"></i> Emotion Demo</h1>
+            <p>Experience different emotional voice modulations</p>
+        </header>
+
+        <div class="emotion-grid">
+            <div class="emotion-card" data-emotion="neutral">
+                <div class="emotion-icon">😐</div>
+                <div class="emotion-title">Neutral</div>
+                <div class="emotion-description">Calm, professional, balanced</div>
+                <div class="demo-text">"Hello, my name is Anuj. How are you today?"</div>
+                <div class="demo-controls">
+                    <button class="demo-btn play-btn" onclick="playDemo('neutral', 1.0)">
+                        <i class="fas fa-play"></i> Normal
+                    </button>
+                    <button class="demo-btn intensity-btn" onclick="playDemo('neutral', 1.5)">
+                        <i class="fas fa-volume-up"></i> Intense
+                    </button>
+                </div>
+            </div>
+
+            <div class="emotion-card" data-emotion="joy">
+                <div class="emotion-icon">😊</div>
+                <div class="emotion-title">Joy</div>
+                <div class="emotion-description">Happy, cheerful, natural enthusiasm</div>
+                <div class="demo-text">"Hello! My name is Anuj! How are you today?"</div>
+                <div class="demo-controls">
+                    <button class="demo-btn play-btn" onclick="playDemo('joy', 1.0)">
+                        <i class="fas fa-play"></i> Normal
+                    </button>
+                    <button class="demo-btn intensity-btn" onclick="playDemo('joy', 1.5)">
+                        <i class="fas fa-volume-up"></i> Intense
+                    </button>
+                </div>
+            </div>
+
+            <div class="emotion-card" data-emotion="sadness">
+                <div class="emotion-icon">😢</div>
+                <div class="emotion-title">Sadness</div>
+                <div class="emotion-description">Somber, melancholic, natural sadness</div>
+                <div class="demo-text">"Hello... my name is Anuj... how are you today?"</div>
+                <div class="demo-controls">
+                    <button class="demo-btn play-btn" onclick="playDemo('sadness', 1.0)">
+                        <i class="fas fa-play"></i> Normal
+                    </button>
+                    <button class="demo-btn intensity-btn" onclick="playDemo('sadness', 1.5)">
+                        <i class="fas fa-volume-up"></i> Intense
+                    </button>
+                </div>
+            </div>
+
+            <div class="emotion-card" data-emotion="anger">
+                <div class="emotion-icon">😠</div>
+                <div class="emotion-title">Anger</div>
+                <div class="emotion-description">Intense, controlled anger</div>
+                <div class="demo-text">"Hello, my name is Anuj. How are you today!"</div>
+                <div class="demo-controls">
+                    <button class="demo-btn play-btn" onclick="playDemo('anger', 1.0)">
+                        <i class="fas fa-play"></i> Normal
+                    </button>
+                    <button class="demo-btn intensity-btn" onclick="playDemo('anger', 1.5)">
+                        <i class="fas fa-volume-up"></i> Intense
+                    </button>
+                </div>
+            </div>
+
+            <div class="emotion-card" data-emotion="fear">
+                <div class="emotion-icon">😨</div>
+                <div class="emotion-title">Fear</div>
+                <div class="emotion-description">Anxious, nervous, natural fear</div>
+                <div class="demo-text">"Hello, my name is Anuj. How are you today?"</div>
+                <div class="demo-controls">
+                    <button class="demo-btn play-btn" onclick="playDemo('fear', 1.0)">
+                        <i class="fas fa-play"></i> Normal
+                    </button>
+                    <button class="demo-btn intensity-btn" onclick="playDemo('fear', 1.5)">
+                        <i class="fas fa-volume-up"></i> Intense
+                    </button>
+                </div>
+            </div>
+
+            <div class="emotion-card" data-emotion="surprise">
+                <div class="emotion-icon">😲</div>
+                <div class="emotion-title">Surprise</div>
+                <div class="emotion-description">Excited, astonished, natural surprise</div>
+                <div class="demo-text">"Hello! My name is Anuj! How are you today?"</div>
+                <div class="demo-controls">
+                    <button class="demo-btn play-btn" onclick="playDemo('surprise', 1.0)">
+                        <i class="fas fa-play"></i> Normal
+                    </button>
+                    <button class="demo-btn intensity-btn" onclick="playDemo('surprise', 1.5)">
+                        <i class="fas fa-volume-up"></i> Intense
+                    </button>
+                </div>
+            </div>
+
+            <div class="emotion-card" data-emotion="disgust">
+                <div class="emotion-icon">🤢</div>
+                <div class="emotion-title">Disgust</div>
+                <div class="emotion-description">Contemptuous, dismissive, natural disgust</div>
+                <div class="demo-text">"Hello, my name is Anuj. How are you today."</div>
+                <div class="demo-controls">
+                    <button class="demo-btn play-btn" onclick="playDemo('disgust', 1.0)">
+                        <i class="fas fa-play"></i> Normal
+                    </button>
+                    <button class="demo-btn intensity-btn" onclick="playDemo('disgust', 1.5)">
+                        <i class="fas fa-volume-up"></i> Intense
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <audio id="audioPlayer" preload="none"></audio>
+
+    <script>
+        const audioPlayer = document.getElementById('audioPlayer');
+        const apiBaseUrl = 'http://localhost:8000';
+
+        async function playDemo(emotion, intensity) {
+            const text = "Hello, my name is Anuj. How are you today?";
+            
+            try {
+                // Show loading state
+                const button = event.target;
+                const originalText = button.innerHTML;
+                button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Generating...';
+                button.disabled = true;
+
+                // Make API request
+                const response = await fetch(`${apiBaseUrl}/synthesize`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        text: text,
+                        emotion_override: emotion,
+                        intensity: intensity,
+                        filename: `demo_${emotion}_${intensity}`
+                    })
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                const result = await response.json();
+                
+                // Play the audio
+                const audioUrl = `${apiBaseUrl}/audio/${result.audio_file_path}`;
+                audioPlayer.src = audioUrl;
+                await audioPlayer.play();
+
+                // Reset button
+                button.innerHTML = originalText;
+                button.disabled = false;
+
+            } catch (error) {
+                console.error('Error playing demo:', error);
+                alert(`Failed to generate speech: ${error.message}`);
+                
+                // Reset button
+                const button = event.target;
+                button.innerHTML = originalText;
+                button.disabled = false;
+            }
+        }
+
+        // Add some visual feedback
+        document.addEventListener('click', (e) => {
+            if (e.target.classList.contains('demo-btn')) {
+                e.target.style.transform = 'scale(0.95)';
+                setTimeout(() => {
+                    e.target.style.transform = 'scale(1)';
+                }, 150);
+            }
+        });
+    </script>
+</body>
+</html>

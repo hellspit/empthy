@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Empathy Engine - AI Voice Synthesis</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1><i class="fas fa-microphone"></i> The Empathy Engine</h1>
+            <p>AI-powered Text-to-Speech with Emotional Voice Modulation</p>
+            <div class="header-links">
+                <a href="/demo" class="demo-link">
+                    <i class="fas fa-theater-masks"></i> Try Emotion Demo
+                </a>
+            </div>
+        </header>
+
+        <main class="main-content">
+            <div class="input-section">
+                <div class="form-group">
+                    <label for="textInput">Enter your text:</label>
+                    <textarea 
+                        id="textInput" 
+                        placeholder="Type your message here... (e.g., Hello, my name is Anuj. How are you today?)"
+                        rows="4"
+                    ></textarea>
+                </div>
+
+                <div class="controls">
+                    <div class="form-group">
+                        <label for="emotionSelect">Emotion:</label>
+                        <select id="emotionSelect">
+                            <option value="">Auto-detect</option>
+                            <option value="joy">Joy - Happy, cheerful</option>
+                            <option value="sadness">Sadness - Somber, melancholic</option>
+                            <option value="anger">Anger - Intense, forceful</option>
+                            <option value="fear">Fear - Anxious, nervous</option>
+                            <option value="surprise">Surprise - Excited, astonished</option>
+                            <option value="disgust">Disgust - Contemptuous, dismissive</option>
+                            <option value="neutral">Neutral - Calm, professional</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="intensitySlider">Intensity: <span id="intensityValue">1.0</span></label>
+                        <input 
+                            type="range" 
+                            id="intensitySlider" 
+                            min="0.1" 
+                            max="2.0" 
+                            step="0.1" 
+                            value="1.0"
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="filenameInput">Custom filename (optional):</label>
+                        <input 
+                            type="text" 
+                            id="filenameInput" 
+                            placeholder="my_audio"
+                        >
+                    </div>
+                </div>
+
+                <button id="generateBtn" class="generate-btn">
+                    <i class="fas fa-play"></i> Generate Speech
+                </button>
+            </div>
+
+            <div class="output-section" id="outputSection" style="display: none;">
+                <div class="result-card">
+                    <h3><i class="fas fa-check-circle"></i> Speech Generated Successfully!</h3>
+                    <div class="result-details">
+                        <div class="detail-item">
+                            <strong>Emotion Detected:</strong>
+                            <span id="detectedEmotion" class="emotion-badge"></span>
+                        </div>
+                        <div class="detail-item">
+                            <strong>Vocal Parameters:</strong>
+                            <div class="params">
+                                <span>Rate: <span id="rateValue"></span>x</span>
+                                <span>Pitch: <span id="pitchValue"></span>x</span>
+                                <span>Volume: <span id="volumeValue"></span></span>
+                            </div>
+                        </div>
+                        <div class="detail-item">
+                            <strong>Audio File:</strong>
+                            <span id="audioFilename"></span>
+                        </div>
+                    </div>
+                    <div class="audio-controls">
+                        <button id="playBtn" class="play-btn">
+                            <i class="fas fa-play"></i> Play Audio
+                        </button>
+                        <button id="downloadBtn" class="download-btn">
+                            <i class="fas fa-download"></i> Download
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="loading" id="loading" style="display: none;">
+                <div class="spinner"></div>
+                <p>Generating your emotional speech...</p>
+            </div>
+
+            <div class="error" id="error" style="display: none;">
+                <i class="fas fa-exclamation-triangle"></i>
+                <p id="errorMessage"></p>
+            </div>
+        </main>
+
+        <footer class="footer">
+            <p>Powered by FastAPI & The Empathy Engine</p>
+            <p>API Documentation: <a href="/docs" target="_blank">/docs</a></p>
+        </footer>
+    </div>
+
+    <audio id="audioPlayer" preload="none"></audio>
+    <script src="script.js"></script>
+</body>
+</html>
