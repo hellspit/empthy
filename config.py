@@ -20,7 +20,7 @@ class Config:
     TEMP_AUDIO_DIR = "temp_audio"
     
     # TTS settings
-    DEFAULT_RATE = 150  # Words per minute
+    DEFAULT_RATE = 180  # Words per minute (more natural human speech rate)
     DEFAULT_VOLUME = 0.8
     DEFAULT_PITCH = 1.0
     
@@ -33,49 +33,49 @@ class Config:
     PITCH_RANGE = (0.5, 2.0)  # Min and max pitch multipliers
     VOLUME_RANGE = (0.1, 1.0)  # Min and max volume
     
-    # Emotion mappings (can be customized) - More human-like ranges
+    # Emotion mappings (can be customized) - Human-like and natural
     EMOTION_MAPPINGS = {
         "joy": {
-            "rate": 1.1,      # Slightly faster (10% increase)
-            "pitch": 1.05,    # Slightly higher pitch (5% increase)
-            "volume": 0.9,    # Slightly louder
-            "description": "Happy, enthusiastic"
+            "rate": 1.05,     # Slightly faster, natural enthusiasm
+            "pitch": 1.03,    # Slightly higher, cheerful but natural
+            "volume": 0.85,   # Normal volume, pleasant
+            "description": "Happy, cheerful, natural enthusiasm"
         },
         "sadness": {
-            "rate": 0.9,      # Slightly slower (10% decrease)
-            "pitch": 0.95,    # Slightly lower pitch (5% decrease)
-            "volume": 0.8,    # Quieter
-            "description": "Somber, melancholic"
+            "rate": 0.9,      # Slower, but not too slow
+            "pitch": 0.95,    # Slightly lower, somber but natural
+            "volume": 0.75,   # Quieter, subdued
+            "description": "Somber, melancholic, natural sadness"
         },
         "anger": {
-            "rate": 1.05,     # Slightly faster (5% increase)
-            "pitch": 1.02,    # Slightly higher pitch (2% increase)
-            "volume": 1.0,    # Full volume
-            "description": "Intense, forceful"
+            "rate": 1.02,     # Slightly faster, controlled intensity
+            "pitch": 1.01,    # Slightly higher, sharp but natural
+            "volume": 0.9,    # Louder, but not overwhelming
+            "description": "Intense, controlled anger"
         },
         "fear": {
-            "rate": 1.15,     # Moderately faster (15% increase)
-            "pitch": 1.08,    # Moderately higher pitch (8% increase)
-            "volume": 0.85,   # Slightly quieter
-            "description": "Anxious, nervous"
+            "rate": 1.08,     # Faster, but not too fast
+            "pitch": 1.05,    # Higher pitch, anxious but natural
+            "volume": 0.8,    # Quieter, nervous
+            "description": "Anxious, nervous, natural fear"
         },
         "surprise": {
-            "rate": 1.08,     # Slightly faster (8% increase)
-            "pitch": 1.1,     # Higher pitch (10% increase)
-            "volume": 0.9,    # Slightly louder
-            "description": "Excited, astonished"
+            "rate": 1.06,     # Slightly faster, excited
+            "pitch": 1.08,    # Higher pitch, astonished but natural
+            "volume": 0.85,   # Louder, excited
+            "description": "Excited, astonished, natural surprise"
         },
         "disgust": {
-            "rate": 0.95,     # Slightly slower (5% decrease)
-            "pitch": 0.98,    # Slightly lower pitch (2% decrease)
-            "volume": 0.85,   # Quieter
-            "description": "Contemptuous, dismissive"
+            "rate": 0.95,     # Slightly slower, dismissive
+            "pitch": 0.97,    # Slightly lower, contemptuous
+            "volume": 0.8,    # Quieter, dismissive
+            "description": "Contemptuous, dismissive, natural disgust"
         },
         "neutral": {
             "rate": 1.0,      # Normal speed
             "pitch": 1.0,     # Normal pitch
             "volume": 0.8,    # Normal volume
-            "description": "Calm, professional"
+            "description": "Calm, professional, natural"
         }
     }
     

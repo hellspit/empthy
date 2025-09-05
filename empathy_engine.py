@@ -179,15 +179,15 @@ class EmpathyEngine:
         # Get base parameters for emotion using config method
         base_params = config.get_emotion_mapping(emotion)
         
-        # Apply intensity scaling with validation - more human-like scaling
-        # Rate: More conservative scaling to avoid too fast speech
-        rate_multiplier = 0.7 + (0.3 * intensity)  # 0.7 to 1.0 range for intensity 0.1 to 2.0
+        # Apply intensity scaling with validation - human-like scaling
+        # Rate: Conservative scaling to maintain natural speech
+        rate_multiplier = 0.8 + (0.2 * intensity)  # 0.8 to 1.2 range for intensity 0.1 to 2.0
         
         # Pitch: Moderate scaling for natural variation
-        pitch_multiplier = 0.85 + (0.3 * intensity)  # 0.85 to 1.45 range for intensity 0.1 to 2.0
+        pitch_multiplier = 0.9 + (0.2 * intensity)  # 0.9 to 1.3 range for intensity 0.1 to 2.0
         
-        # Volume: Linear scaling for clear intensity effect
-        volume_multiplier = 0.6 + (0.4 * intensity)  # 0.6 to 1.4 range for intensity 0.1 to 2.0
+        # Volume: Conservative scaling for natural volume
+        volume_multiplier = 0.7 + (0.3 * intensity)  # 0.7 to 1.3 range for intensity 0.1 to 2.0
         
         scaled_params = {
             "rate": config.validate_vocal_parameter("rate", base_params["rate"] * rate_multiplier),
@@ -247,20 +247,53 @@ class EmpathyEngine:
             
             filepath = os.path.join(config.TEMP_AUDIO_DIR, filename)
             
-            # Generate base audio using pyttsx3
-            self.tts_engine.setProperty('rate', int(config.DEFAULT_RATE * vocal_params['rate']))
-            self.tts_engine.setProperty('volume', vocal_params['volume'])
+            # Create a new TTS engine instance for each generation to avoid hanging
+            temp_engine = pyttsx3.init()
             
-            # Save to temporary file
-            self.tts_engine.save_to_file(text, filepath)
-            self.tts_engine.runAndWait()
+            try:
+                # Configure the temporary engine
+                voices = temp_engine.getProperty('voices')
+                if voices:
+                    # Use the same voice as the main engine
+                    temp_engine.setProperty('voice', voices[0].id)
+                
+                # Set properties
+                temp_engine.setProperty('rate', int(config.DEFAULT_RATE * vocal_params['rate']))
+                temp_engine.setProperty('volume', vocal_params['volume'])
+                
+                # Generate base audio with timeout
+                temp_engine.save_to_file(text, filepath)
+                
+                # Run with timeout to prevent hanging
+                import threading
+                import time
+                
+                def run_tts():
+                    temp_engine.runAndWait()
+                
+                tts_thread = threading.Thread(target=run_tts)
+                tts_thread.daemon = True
+                tts_thread.start()
+                
+                # Wait for completion with timeout
+                tts_thread.join(timeout=30)  # 30 second timeout
+                
+                if tts_thread.is_alive():
+                    logger.warning("TTS generation timed out, but continuing...")
+                    temp_engine.stop()
+                
+            finally:
+                # Clean up the temporary engine
+                try:
+                    temp_engine.stop()
+                    del temp_engine
+                except:
+                    pass
             
             # Apply pitch modulation using pydub
             audio = AudioSegment.from_wav(filepath)
             
             # Apply pitch shift using simple speed adjustment
-            # Note: This is a simplified approach - for better pitch shifting, 
-            # you would need FFmpeg or a more advanced audio library
             pitch_factor = vocal_params['pitch']
             if abs(pitch_factor - 1.0) > 0.05:  # Only apply if significant change
                 # Simple pitch adjustment by changing sample rate
@@ -274,6 +307,24 @@ class EmpathyEngine:
             
             # Export final audio
             audio.export(filepath, format=config.AUDIO_FORMAT)
+            
+            # Try to play the audio automatically (optional)
+            try:
+                import subprocess
+                import platform
+                
+                if platform.system() == "Windows":
+                    # Use Windows Media Player to play the audio
+                    subprocess.Popen(['start', 'wmplayer', filepath], shell=True)
+                elif platform.system() == "Darwin":  # macOS
+                    subprocess.Popen(['afplay', filepath])
+                else:  # Linux
+                    subprocess.Popen(['aplay', filepath])
+                
+                logger.info(f"Playing audio file: {filepath}")
+            except Exception as e:
+                logger.warning(f"Could not play audio automatically: {e}")
+                logger.info(f"Audio file saved to: {filepath}")
             
             logger.info(f"Generated audio file: {filepath}")
             return filename

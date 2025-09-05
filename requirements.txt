@@ -12,4 +12,3 @@ numpy
 scipy
 python-jose[cryptography]
 python-dotenv
-
